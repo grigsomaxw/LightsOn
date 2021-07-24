@@ -21,7 +21,7 @@ ALightsOnBlockGrid::ALightsOnBlockGrid()
 	LevelText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("ScoreText0"));
 	LevelText->SetRelativeLocation(FVector(200.f,0.f,0.f));
 	LevelText->SetRelativeRotation(FRotator(90.f,0.f,0.f));
-	LevelText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Level: {0}"), FText::AsNumber(0)));
+	LevelText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Level: {0}"), FText::AsNumber(1)));
 	LevelText->SetupAttachment(DummyRoot);
 
 	// Set defaults
@@ -36,31 +36,8 @@ void ALightsOnBlockGrid::BeginPlay()
 
 	// Number of blocks
 	const int32 NumBlocks = Size * Size;
-	Level = Size - 2;
-	Blocks.resize(NumBlocks);
 
-	// Loop to spawn each block
-	for(int32 BlockIndex=0; BlockIndex<NumBlocks; BlockIndex++)
-	{
-		BlockSpacing = 600.f / (Size - 1);
-		const float XOffset = (BlockIndex / Size) * BlockSpacing + (BlockIndex / Size - Size / 2.f) * 900.f * (1 - 2.f / (Size - 1)) / 7.f / (Size / 2.f); // Divide by dimension
-		const float YOffset = (BlockIndex % Size) * BlockSpacing + (BlockIndex % Size - Size / 2.f) * 900.f * (1 - 2.f / (Size - 1)) / 7.f / (Size / 2.f); // Modulo gives remainder
-
-		// Make position vector, offset from Grid location
-		const FVector BlockLocation = FVector(XOffset, YOffset, 0.f) + GetActorLocation();
-
-		// Spawn a block
-		ALightsOnBlock* NewBlock = GetWorld()->SpawnActor<ALightsOnBlock>(BlockLocation, FRotator(0,0,0));
-
-		// Tell the block about its owner
-		if (NewBlock != nullptr)
-		{
-			NewBlock->OwningGrid = this;
-			NewBlock->AdjustScale(Size);
-			NewBlock->Index = BlockIndex;
-			Blocks[BlockIndex] = NewBlock;
-		}
-	}
+	ResetGrid(NumBlocks);
 }
 
 
@@ -86,20 +63,50 @@ void ALightsOnBlockGrid::OnClick(int32 Index) {
 	}
 }
 
-void ALightsOnBlockGrid::CheckBoard()
+bool ALightsOnBlockGrid::CheckBoard()
 {
-	bool AllLightsON = true;
-
 	for (int i = 0; i < Blocks.size(); i++) {
-		AllLightsON = AllLightsON && Blocks[i]->bIsActive;
+		if (!Blocks[i]->bIsActive) {
+			return false;
+		}
 	}
 
-	if (AllLightsON) {
-		LevelSolved = true;
-		Level += 1;
+	return true;
+}
 
-		// Update text
-		LevelText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Level: {0}"), FText::AsNumber(Level)));
+void ALightsOnBlockGrid::ResetGrid(int32 NumOfBlocks) 
+{
+	// Clear and Resize Grid
+
+	if (Blocks.size() > 0){
+		for (int i = 0; i < Blocks.size(); i++) {
+			Blocks[i]->Destroy();
+		}
+	}
+	Blocks.clear();
+	Blocks.resize(NumOfBlocks);
+
+	// Loop to spawn each block
+	for (int32 BlockIndex = 0; BlockIndex < NumOfBlocks; BlockIndex++)
+	{
+		BlockSpacing = 600.f / (Size - 1);
+		const float XOffset = (BlockIndex / Size) * BlockSpacing + (BlockIndex / Size - Size / 2.f) * 900.f * (1 - 2.f / (Size - 1)) / 7.f / (Size / 2.f); // Divide by dimension
+		const float YOffset = (BlockIndex % Size) * BlockSpacing + (BlockIndex % Size - Size / 2.f) * 900.f * (1 - 2.f / (Size - 1)) / 7.f / (Size / 2.f); // Modulo gives remainder
+
+		// Make position vector, offset from Grid location
+		const FVector BlockLocation = FVector(XOffset, YOffset, 0.f) + GetActorLocation();
+
+		// Spawn a block
+		ALightsOnBlock* NewBlock = GetWorld()->SpawnActor<ALightsOnBlock>(BlockLocation, FRotator(0, 0, 0));
+
+		// Tell the block about its owner
+		if (NewBlock != nullptr)
+		{
+			NewBlock->OwningGrid = this;
+			NewBlock->AdjustScale(Size);
+			NewBlock->Index = BlockIndex;
+			Blocks[BlockIndex] = NewBlock;
+		}
 	}
 }
 

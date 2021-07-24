@@ -38,16 +38,12 @@ public:
 	vector<ALightsOnBlock*> Blocks;
 
 	/** Number of blocks along each side of grid */
-	UPROPERTY(Category=Grid, EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(Category=Grid, EditAnywhere, BlueprintReadWrite)
 	int32 Size;
 
 	/** Spacing of blocks */
-	UPROPERTY(Category=Grid, EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(Category=Grid, EditAnywhere, BlueprintReadWrite)
 	float BlockSpacing;
-
-	/** States whether Level has been solved by player*/
-	UPROPERTY(Category = Grid, BlueprintReadWrite, EditAnywhere)
-	bool LevelSolved;
 
 protected:
 	// Begin AActor interface
@@ -61,12 +57,16 @@ public:
 
 	/** Returns DummyRoot subobject **/
 	FORCEINLINE class USceneComponent* GetDummyRoot() const { return DummyRoot; }
+
 	/** Returns ScoreText subobject **/
 	FORCEINLINE class UTextRenderComponent* GetLevelText() const { return LevelText; }
 
-private:
 	/** Checks to see if the board has been solved */
-	void CheckBoard();
+	UFUNCTION(BlueprintCallable)
+	bool CheckBoard();
+
+	UFUNCTION(BlueprintCallable)
+	void ResetGrid(int32 NumOfBlocks);
 
 };
 
