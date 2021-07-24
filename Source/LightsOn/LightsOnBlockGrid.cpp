@@ -4,6 +4,10 @@
 #include "LightsOnBlock.h"
 #include "Components/TextRenderComponent.h"
 #include "Engine/World.h"
+#include <list>
+#include <vector>
+
+using namespace std;
 
 #define LOCTEXT_NAMESPACE "PuzzleBlockGrid"
 
@@ -14,11 +18,11 @@ ALightsOnBlockGrid::ALightsOnBlockGrid()
 	RootComponent = DummyRoot;
 
 	// Create static mesh component
-	ScoreText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("ScoreText0"));
-	ScoreText->SetRelativeLocation(FVector(200.f,0.f,0.f));
-	ScoreText->SetRelativeRotation(FRotator(90.f,0.f,0.f));
-	ScoreText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Score: {0}"), FText::AsNumber(0)));
-	ScoreText->SetupAttachment(DummyRoot);
+	LevelText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("ScoreText0"));
+	LevelText->SetRelativeLocation(FVector(200.f,0.f,0.f));
+	LevelText->SetRelativeRotation(FRotator(90.f,0.f,0.f));
+	LevelText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Level: {0}"), FText::AsNumber(0)));
+	LevelText->SetupAttachment(DummyRoot);
 
 	// Set defaults
 	Size = 3;
@@ -32,12 +36,15 @@ void ALightsOnBlockGrid::BeginPlay()
 
 	// Number of blocks
 	const int32 NumBlocks = Size * Size;
+	Level = Size - 2;
+	Blocks.resize(NumBlocks);
 
 	// Loop to spawn each block
 	for(int32 BlockIndex=0; BlockIndex<NumBlocks; BlockIndex++)
 	{
-		const float XOffset = (BlockIndex/Size) * BlockSpacing; // Divide by dimension
-		const float YOffset = (BlockIndex%Size) * BlockSpacing; // Modulo gives remainder
+		BlockSpacing = 600.f / (Size - 1);
+		const float XOffset = (BlockIndex / Size) * BlockSpacing + (BlockIndex / Size - Size / 2.f) * 900.f * (1 - 2.f / (Size - 1)) / 7.f / (Size / 2.f); // Divide by dimension
+		const float YOffset = (BlockIndex % Size) * BlockSpacing + (BlockIndex % Size - Size / 2.f) * 900.f * (1 - 2.f / (Size - 1)) / 7.f / (Size / 2.f); // Modulo gives remainder
 
 		// Make position vector, offset from Grid location
 		const FVector BlockLocation = FVector(XOffset, YOffset, 0.f) + GetActorLocation();
@@ -49,18 +56,51 @@ void ALightsOnBlockGrid::BeginPlay()
 		if (NewBlock != nullptr)
 		{
 			NewBlock->OwningGrid = this;
+			NewBlock->AdjustScale(Size);
+			NewBlock->Index = BlockIndex;
+			Blocks[BlockIndex] = NewBlock;
 		}
 	}
 }
 
 
-void ALightsOnBlockGrid::AddScore()
-{
-	// Increment score
-	Score++;
+void ALightsOnBlockGrid::OnClick(int32 Index) {
 
-	// Update text
-	ScoreText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Score: {0}"), FText::AsNumber(Score)));
+	Blocks[Index]->ToggleActive();
+
+	if (Index % Size > 0) {
+		Blocks[Index - 1]->ToggleActive();
+	}
+	if ((Size - Index % Size - 1) > 0) {
+		Blocks[Index + 1]->ToggleActive();
+	}
+	if (((Index - (Index % Size)) / Size) > 0) {
+		Blocks[Index - Size]->ToggleActive();
+	}
+	if ((Size - ((Index - (Index % Size)) / Size) - 1) > 0) {
+		Blocks[Index + Size]->ToggleActive();
+	}
+
+	if (Blocks[Index]->bIsActive) {
+		CheckBoard();
+	}
+}
+
+void ALightsOnBlockGrid::CheckBoard()
+{
+	bool AllLightsON = true;
+
+	for (int i = 0; i < Blocks.size(); i++) {
+		AllLightsON = AllLightsON && Blocks[i]->bIsActive;
+	}
+
+	if (AllLightsON) {
+		LevelSolved = true;
+		Level += 1;
+
+		// Update text
+		LevelText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Level: {0}"), FText::AsNumber(Level)));
+	}
 }
 
 #undef LOCTEXT_NAMESPACE

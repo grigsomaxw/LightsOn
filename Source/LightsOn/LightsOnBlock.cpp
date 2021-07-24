@@ -59,26 +59,7 @@ void ALightsOnBlock::OnFingerPressedBlock(ETouchIndex::Type FingerIndex, UPrimit
 
 void ALightsOnBlock::HandleClicked()
 {
-	// Check we are not already active
-	if (!bIsActive)
-	{
-		bIsActive = true;
-
-		// Change material
-		BlockMesh->SetMaterial(0, OrangeMaterial);
-
-		// Tell the Grid
-		if (OwningGrid != nullptr)
-		{
-			OwningGrid->CheckBoard(Index);
-		}
-	}
-	else {
-		bIsActive = false;
-
-		// Change material
-		BlockMesh->SetMaterial(0, BlueMaterial);
-	}
+	OwningGrid->OnClick(Index);
 }
 
 void ALightsOnBlock::Highlight(bool bOn)
