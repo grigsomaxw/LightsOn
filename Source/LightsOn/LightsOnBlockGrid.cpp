@@ -34,10 +34,7 @@ void ALightsOnBlockGrid::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Number of blocks
-	const int32 NumBlocks = Size * Size;
-
-	ResetGrid(NumBlocks);
+	ResetGrid();
 }
 
 
@@ -74,8 +71,11 @@ bool ALightsOnBlockGrid::CheckBoard()
 	return true;
 }
 
-void ALightsOnBlockGrid::ResetGrid(int32 NumOfBlocks) 
+void ALightsOnBlockGrid::ResetGrid() 
 {
+	// Number of blocks
+	const int32 NumOfBlocks = Size * Size;
+
 	// Clear and Resize Grid
 
 	if (Blocks.size() > 0){
@@ -108,6 +108,10 @@ void ALightsOnBlockGrid::ResetGrid(int32 NumOfBlocks)
 			Blocks[BlockIndex] = NewBlock;
 		}
 	}
+
+	// Update Level Text
+
+	LevelText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Level: {0}"), Size - 2));
 }
 
 #undef LOCTEXT_NAMESPACE

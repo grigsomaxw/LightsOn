@@ -31,9 +31,6 @@ class ALightsOnBlockGrid : public AActor
 public:
 	ALightsOnBlockGrid();
 
-	/** How many blocks have been clicked */
-	int32 Level;
-
 	/** Collection Of Blocks */
 	vector<ALightsOnBlock*> Blocks;
 
@@ -66,7 +63,7 @@ public:
 	bool CheckBoard();
 
 	UFUNCTION(BlueprintCallable)
-	void ResetGrid(int32 NumOfBlocks);
+	void ResetGrid();
 
 };
 
