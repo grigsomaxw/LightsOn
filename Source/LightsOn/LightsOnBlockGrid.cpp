@@ -111,7 +111,7 @@ void ALightsOnBlockGrid::ResetGrid()
 
 	// Update Level Text
 
-	LevelText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Level: {0}"), Size - 2));
+	LevelText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Level: {0}"), (Size - 2)));
 }
 
 #undef LOCTEXT_NAMESPACE
