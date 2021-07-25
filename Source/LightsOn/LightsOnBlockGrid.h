@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "LightsOnBlock.h"
 #include <vector>
+#include <string>
 #include "LightsOnBlockGrid.generated.h"
 
 using namespace std;
@@ -64,6 +65,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ResetGrid();
+
+	UFUNCTION(BlueprintCallable)
+	void LoadFromString(int LevelNumber);
 
 };
 

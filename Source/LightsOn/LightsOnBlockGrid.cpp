@@ -6,6 +6,7 @@
 #include "Engine/World.h"
 #include <list>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -63,8 +64,10 @@ void ALightsOnBlockGrid::OnClick(int32 Index) {
 bool ALightsOnBlockGrid::CheckBoard()
 {
 	for (int i = 0; i < Blocks.size(); i++) {
-		if (!Blocks[i]->bIsActive) {
-			return false;
+		if (Blocks[i] != nullptr) {
+			if (!Blocks[i]->bIsActive) {
+				return false;
+			}
 		}
 	}
 
@@ -112,6 +115,11 @@ void ALightsOnBlockGrid::ResetGrid()
 	// Update Level Text
 
 	LevelText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Level: {0}"), (Size - 2)));
+}
+
+void ALightsOnBlockGrid::LoadFromString(int LevelNumber)
+{
+
 }
 
 #undef LOCTEXT_NAMESPACE
