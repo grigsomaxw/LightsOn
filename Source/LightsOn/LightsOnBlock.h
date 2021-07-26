@@ -24,6 +24,7 @@ public:
 	ALightsOnBlock();
 
 	/** Are we currently active? */
+	UPROPERTY(Category = Grid, EditAnywhere, BlueprintReadWrite)
 	bool bIsActive;
 
 	/** Grid Index */
@@ -41,6 +42,10 @@ public:
 	UPROPERTY()
 	class UMaterialInstance* OrangeMaterial;
 
+	/** Pointer to grey material used on dead blocks */
+	UPROPERTY()
+	class UMaterialInstance* GreyMaterial;
+
 	/** Grid that owns us */
 	UPROPERTY()
 	class ALightsOnBlockGrid* OwningGrid;
@@ -53,11 +58,12 @@ public:
 	UFUNCTION()
 	void OnFingerPressedBlock(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 
-	void HandleClicked();
+	virtual void HandleClicked();
 
-	void Highlight(bool bOn);
+	virtual void Highlight(bool bOn);
 
-	void ToggleActive();
+	UFUNCTION(BlueprintCallable)
+	virtual void ToggleActive();
 
 	void AdjustScale(int32 Scale);
 

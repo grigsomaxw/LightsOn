@@ -11,5 +11,10 @@
 
 void AGlassBlock::HandleClicked()
 {
-	
+	return;
+}
+
+void AGlassBlock::Highlight(bool bOn)
+{
+	return;
 }

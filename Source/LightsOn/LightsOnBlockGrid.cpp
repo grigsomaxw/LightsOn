@@ -83,7 +83,9 @@ void ALightsOnBlockGrid::ResetGrid()
 
 	if (Blocks.size() > 0){
 		for (int i = 0; i < Blocks.size(); i++) {
-			Blocks[i]->Destroy();
+			if (Blocks[i] != nullptr) {
+				Blocks[i]->Destroy();
+			}
 		}
 	}
 	Blocks.clear();
@@ -121,6 +123,8 @@ void ALightsOnBlockGrid::FillBasicGrid()
 
 void ALightsOnBlockGrid::AddToGrid(ALightsOnBlock* Block, int32 Index)
 {
+	Block->OwningGrid = this;
+	Block->Index = Index;
 	Blocks[Index] = Block;
 }
 

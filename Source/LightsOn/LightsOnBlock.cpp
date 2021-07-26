@@ -16,11 +16,13 @@ ALightsOnBlock::ALightsOnBlock()
 		ConstructorHelpers::FObjectFinderOptional<UMaterial> BaseMaterial;
 		ConstructorHelpers::FObjectFinderOptional<UMaterialInstance> BlueMaterial;
 		ConstructorHelpers::FObjectFinderOptional<UMaterialInstance> OrangeMaterial;
+		ConstructorHelpers::FObjectFinderOptional<UMaterialInstance> GreyMaterial;
 		FConstructorStatics()
 			: PlaneMesh(TEXT("/Game/Puzzle/Meshes/PuzzleCube.PuzzleCube"))
 			, BaseMaterial(TEXT("/Game/Puzzle/Meshes/BaseMaterial.BaseMaterial"))
 			, BlueMaterial(TEXT("/Game/Puzzle/Meshes/BlueMaterial.BlueMaterial"))
 			, OrangeMaterial(TEXT("/Game/Puzzle/Meshes/OrangeMaterial.OrangeMaterial"))
+			, GreyMaterial(TEXT("/Game/Puzzle/Meshes/GreyMaterial.GreyMaterial"))
 		{
 		}
 	};

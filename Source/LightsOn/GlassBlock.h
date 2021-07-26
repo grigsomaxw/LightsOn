@@ -13,8 +13,9 @@ UCLASS()
 class LIGHTSON_API AGlassBlock : public ALightsOnBlock
 {
 	GENERATED_BODY()
-	
 
 	void HandleClicked();
+
+	void Highlight(bool bOn);
 
 };
