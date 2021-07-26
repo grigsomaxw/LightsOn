@@ -57,11 +57,11 @@ void ALightsOnBlockGrid::OnClick(int32 Index) {
 	}
 
 	if (Blocks[Index]->bIsActive) {
-		CheckBoard();
+		CheckGrid();
 	}
 }
 
-bool ALightsOnBlockGrid::CheckBoard()
+bool ALightsOnBlockGrid::CheckGrid()
 {
 	for (int i = 0; i < Blocks.size(); i++) {
 		if (Blocks[i] != nullptr) {
@@ -88,6 +88,12 @@ void ALightsOnBlockGrid::ResetGrid()
 	}
 	Blocks.clear();
 	Blocks.resize(NumOfBlocks);
+}
+
+void ALightsOnBlockGrid::FillBasicGrid()
+{
+	// Number of blocks
+	const int32 NumOfBlocks = Size * Size;
 
 	// Loop to spawn each block
 	for (int32 BlockIndex = 0; BlockIndex < NumOfBlocks; BlockIndex++)
@@ -111,13 +117,14 @@ void ALightsOnBlockGrid::ResetGrid()
 			Blocks[BlockIndex] = NewBlock;
 		}
 	}
-
-	// Update Level Text
-
-	LevelText->SetText(FText::Format(LOCTEXT("ScoreFmt", "Level: {0}"), (Size - 2)));
 }
 
-void ALightsOnBlockGrid::LoadFromString(int LevelNumber)
+void ALightsOnBlockGrid::AddToGrid(ALightsOnBlock* Block, int32 Index)
+{
+	Blocks[Index] = Block;
+}
+
+void ALightsOnBlockGrid::LoadLevel(int LevelNumber)
 {
 
 }

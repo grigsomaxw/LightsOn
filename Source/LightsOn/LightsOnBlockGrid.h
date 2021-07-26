@@ -61,13 +61,19 @@ public:
 
 	/** Checks to see if the board has been solved */
 	UFUNCTION(BlueprintCallable)
-	bool CheckBoard();
+	bool CheckGrid();
 
 	UFUNCTION(BlueprintCallable)
 	void ResetGrid();
 
 	UFUNCTION(BlueprintCallable)
-	void LoadFromString(int LevelNumber);
+	void FillBasicGrid();
+
+	UFUNCTION(BlueprintCallable)
+	void AddToGrid(ALightsOnBlock* Block, int32 Index);
+
+	UFUNCTION(BlueprintCallable)
+	void LoadLevel(int LevelNumber);
 
 };
 
