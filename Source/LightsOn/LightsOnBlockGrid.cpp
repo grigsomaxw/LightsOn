@@ -96,30 +96,10 @@ void ALightsOnBlockGrid::ResetGrid()
 
 void ALightsOnBlockGrid::FillBasicGrid()
 {
-	// Number of blocks
-	const int32 NumOfBlocks = Size * Size;
+	ResetGrid();
 
-	// Loop to spawn each block
-	for (int32 BlockIndex = 0; BlockIndex < NumOfBlocks; BlockIndex++)
-	{
-		BlockSpacing = 600.f / (Size - 1);
-		const float XOffset = (BlockIndex / Size) * BlockSpacing + (BlockIndex / Size - Size / 2.f) * 900.f * (1 - 2.f / (Size - 1)) / 7.f / (Size / 2.f); // Divide by dimension
-		const float YOffset = (BlockIndex % Size) * BlockSpacing + (BlockIndex % Size - Size / 2.f) * 900.f * (1 - 2.f / (Size - 1)) / 7.f / (Size / 2.f); // Modulo gives remainder
-
-		// Make position vector, offset from Grid location
-		const FVector BlockLocation = FVector(XOffset, YOffset, 0.f) + GetActorLocation();
-
-		// Spawn a block
-		ALightsOnBlock* NewBlock = GetWorld()->SpawnActor<ALightsOnBlock>(BlockLocation, FRotator(0, 0, 0));
-
-		// Tell the block about its owner
-		if (NewBlock != nullptr)
-		{
-			NewBlock->OwningGrid = this;
-			NewBlock->AdjustScale(Size);
-			NewBlock->Index = BlockIndex;
-			Blocks[BlockIndex] = NewBlock;
-		}
+	for (int i = 0; i < 25; i++) {
+		SpawnOnGrid(0, i);
 	}
 }
 
@@ -169,8 +149,46 @@ void ALightsOnBlockGrid::LoadLevel(int LevelNumber)
 {
 	switch (LevelNumber) {
 		case 1:
+			Size = 3;
+
+			ResetGrid();
+
+			SpawnOnGrid(0, 0);
+			SpawnOnGrid(2, 1);
+			SpawnOnGrid(0, 2);
+			SpawnOnGrid(0, 3);
+			SpawnOnGrid(0, 4);
+			SpawnOnGrid(0, 5);
+			SpawnOnGrid(0, 6);
+			SpawnOnGrid(1, 7);
+			SpawnOnGrid(0, 8);
 			break;
 		case 2:
+			Size = 3;
+
+			ResetGrid();
+
+			for (int i = 0; i < 25; i++) {
+				SpawnOnGrid(0, i);
+			}
+			break;
+		case 3:
+			Size = 4;
+
+			ResetGrid();
+
+			for (int i = 0; i < 25; i++) {
+				SpawnOnGrid(0, i);
+			}
+			break;
+		case 4:
+			Size = 5;
+
+			ResetGrid();
+
+			for (int i = 0; i < 25; i++) {
+				SpawnOnGrid(0, i);
+			}
 			break;
 		default:
 			Size = 3;
@@ -181,7 +199,7 @@ void ALightsOnBlockGrid::LoadLevel(int LevelNumber)
 			SpawnOnGrid(0, 1);
 			SpawnOnGrid(0, 2);
 			SpawnOnGrid(0, 3);
-			SpawnOnGrid(2, 4);
+			SpawnOnGrid(0, 4);
 			SpawnOnGrid(0, 5);
 			SpawnOnGrid(0, 6);
 			SpawnOnGrid(0, 7);
