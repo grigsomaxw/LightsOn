@@ -15,13 +15,17 @@ ALightsOnBlock::ALightsOnBlock()
 		ConstructorHelpers::FObjectFinderOptional<UStaticMesh> PlaneMesh;
 		ConstructorHelpers::FObjectFinderOptional<UMaterial> BaseMaterial;
 		ConstructorHelpers::FObjectFinderOptional<UMaterialInstance> BlueMaterial;
-		ConstructorHelpers::FObjectFinderOptional<UMaterialInstance> OrangeMaterial;
 		ConstructorHelpers::FObjectFinderOptional<UMaterialInstance> GreyMaterial;
+		ConstructorHelpers::FObjectFinderOptional<UMaterialInstance> GlassMaterial;
+		ConstructorHelpers::FObjectFinderOptional<UMaterialInstance> LitGlassMaterial;
+		ConstructorHelpers::FObjectFinderOptional<UMaterialInstance> OrangeMaterial;
 		FConstructorStatics()
 			: PlaneMesh(TEXT("/Game/Puzzle/Meshes/PuzzleCube.PuzzleCube"))
 			, BaseMaterial(TEXT("/Game/Puzzle/Meshes/BaseMaterial.BaseMaterial"))
 			, BlueMaterial(TEXT("/Game/Puzzle/Meshes/BlueMaterial.BlueMaterial"))
 			, GreyMaterial(TEXT("/Game/Puzzle/Meshes/GreyMaterial.GreyMaterial"))
+			, GlassMaterial(TEXT("/Game/Puzzle/Meshes/TintedGlass.TintedGlass"))
+			, LitGlassMaterial(TEXT("/Game/Puzzle/Meshes/LitGlass.LitGlass"))
 			, OrangeMaterial(TEXT("/Game/Puzzle/Meshes/OrangeMaterial.OrangeMaterial"))
 		{
 		}
@@ -42,11 +46,14 @@ ALightsOnBlock::ALightsOnBlock()
 	BlockMesh->OnClicked.AddDynamic(this, &ALightsOnBlock::BlockClicked);
 	BlockMesh->OnInputTouchBegin.AddDynamic(this, &ALightsOnBlock::OnFingerPressedBlock);
 
+
 	// Save a pointer to the materials
 	BaseMaterial = ConstructorStatics.BaseMaterial.Get();
 	BlueMaterial = ConstructorStatics.BlueMaterial.Get();
 	OrangeMaterial = ConstructorStatics.OrangeMaterial.Get();
 	GreyMaterial = ConstructorStatics.GreyMaterial.Get();
+	GlassMaterial = ConstructorStatics.GlassMaterial.Get();
+	LitGlassMaterial = ConstructorStatics.LitGlassMaterial.Get();
 }
 
 void ALightsOnBlock::BlockClicked(UPrimitiveComponent* ClickedComp, FKey ButtonClicked)
@@ -99,6 +106,17 @@ void ALightsOnBlock::ToggleActive()
 void ALightsOnBlock::AdjustScale(int32 Scale)
 {
 	BlockMesh->SetRelativeScale3D(FVector((2.f / (Scale - 1)), (2.f / (Scale - 1)), 0.25f));
+}
+
+void ALightsOnBlock::GlassOut()
+{
+	if (!bIsActive)
+	{
+		BlockMesh->SetMaterial(0, GlassMaterial);
+	}
+	else {
+		BlockMesh->SetMaterial(0, LitGlassMaterial);
+	}
 }
 
 void ALightsOnBlock::GreyOut()

@@ -18,3 +18,9 @@ void AGlassBlock::Highlight(bool bOn)
 {
 	return;
 }
+
+void AGlassBlock::ToggleActive()
+{
+	bIsActive = !bIsActive;
+	GlassOut();
+}

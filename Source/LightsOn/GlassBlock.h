@@ -18,4 +18,5 @@ class LIGHTSON_API AGlassBlock : public ALightsOnBlock
 
 	void Highlight(bool bOn);
 
+	void ToggleActive();
 };

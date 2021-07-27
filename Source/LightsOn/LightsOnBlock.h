@@ -29,7 +29,7 @@ public:
 
 	/** Grid Index */
 	int32 Index;
-
+protected:
 	/** Pointer to white material used on the focused block */
 	UPROPERTY()
 	class UMaterial* BaseMaterial;
@@ -42,10 +42,18 @@ public:
 	UPROPERTY()
 	class UMaterialInstance* OrangeMaterial;
 
+	/** Pointer to faded glass material used on glass blocks */
+	UPROPERTY()
+	class UMaterialInstance* GlassMaterial;
+
+	/** Pointer to the faded orange material used on glass blocks */
+	UPROPERTY()
+	class UMaterialInstance* LitGlassMaterial;
+
 	/** Pointer to grey material used on dead blocks */
 	UPROPERTY()
 	class UMaterialInstance* GreyMaterial;
-
+public:
 	/** Grid that owns us */
 	UPROPERTY()
 	class ALightsOnBlockGrid* OwningGrid;
@@ -58,14 +66,16 @@ public:
 	UFUNCTION()
 	void OnFingerPressedBlock(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 
+	UFUNCTION(BlueprintCallable)
+	virtual void ToggleActive();
+
 	virtual void HandleClicked();
 
 	virtual void Highlight(bool bOn);
 
-	UFUNCTION(BlueprintCallable)
-	virtual void ToggleActive();
-
 	void AdjustScale(int32 Scale);
+
+	void GlassOut();
 
 	void GreyOut();
 

@@ -124,6 +124,7 @@ void ALightsOnBlockGrid::SpawnOnGrid(int32 BlockType, int32 Index)
 	switch (BlockType) {
 	case 1:
 		NewBlock = GetWorld()->SpawnActor<AGlassBlock>(BlockLocation, FRotator(0, 0, 0));
+		NewBlock->GlassOut();
 		break;
 	case 2:
 		NewBlock = GetWorld()->SpawnActor<ADeadBlock>(BlockLocation, FRotator(0, 0, 0));
