@@ -98,7 +98,10 @@ void ALightsOnBlockGrid::FillBasicGrid()
 {
 	ResetGrid();
 
-	for (int i = 0; i < 25; i++) {
+	// Number of blocks
+	const int32 NumOfBlocks = Size * Size;
+
+	for (int i = 0; i < NumOfBlocks; i++) {
 		SpawnOnGrid(0, i);
 	}
 }
@@ -165,31 +168,57 @@ void ALightsOnBlockGrid::LoadLevel(int LevelNumber)
 			SpawnOnGrid(0, 8);
 			break;
 		case 2:
-			Size = 3;
-
-			ResetGrid();
-
-			for (int i = 0; i < 25; i++) {
-				SpawnOnGrid(0, i);
-			}
-			break;
-		case 3:
 			Size = 4;
 
 			ResetGrid();
 
-			for (int i = 0; i < 25; i++) {
-				SpawnOnGrid(0, i);
-			}
+			SpawnOnGrid(0, 0);
+			SpawnOnGrid(0, 1);
+			SpawnOnGrid(0, 2);
+			SpawnOnGrid(0, 3);
+			SpawnOnGrid(0, 4);
+			SpawnOnGrid(1, 5);
+			SpawnOnGrid(2, 6);
+			SpawnOnGrid(0, 7);
+			SpawnOnGrid(0, 8);
+			SpawnOnGrid(2, 9);
+			SpawnOnGrid(1, 10);
+			SpawnOnGrid(0, 11);
+			SpawnOnGrid(0, 12);
+			SpawnOnGrid(0, 13);
+			SpawnOnGrid(0, 14);
+			SpawnOnGrid(0, 15);
 			break;
-		case 4:
+		case 3:
 			Size = 5;
 
 			ResetGrid();
 
-			for (int i = 0; i < 25; i++) {
-				SpawnOnGrid(0, i);
-			}
+			SpawnOnGrid(1, 0);
+			SpawnOnGrid(0, 1);
+			SpawnOnGrid(0, 2);
+			SpawnOnGrid(0, 3);
+			SpawnOnGrid(1, 4);
+			SpawnOnGrid(0, 5);
+			SpawnOnGrid(2, 6);
+			SpawnOnGrid(0, 7);
+			SpawnOnGrid(2, 8);
+			SpawnOnGrid(0, 9);
+			SpawnOnGrid(0, 10);
+			SpawnOnGrid(0, 11);
+			SpawnOnGrid(0, 12);
+			SpawnOnGrid(0, 13);
+			SpawnOnGrid(0, 14);
+			SpawnOnGrid(0, 15);
+			SpawnOnGrid(2, 16);
+			SpawnOnGrid(0, 17);
+			SpawnOnGrid(2, 18);
+			SpawnOnGrid(0, 19);
+			SpawnOnGrid(1, 20);
+			SpawnOnGrid(0, 21);
+			SpawnOnGrid(0, 22);
+			SpawnOnGrid(0, 23);
+			SpawnOnGrid(1, 24);
 			break;
 		default:
 			Size = 3;
