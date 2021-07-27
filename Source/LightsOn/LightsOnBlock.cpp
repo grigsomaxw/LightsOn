@@ -21,8 +21,8 @@ ALightsOnBlock::ALightsOnBlock()
 			: PlaneMesh(TEXT("/Game/Puzzle/Meshes/PuzzleCube.PuzzleCube"))
 			, BaseMaterial(TEXT("/Game/Puzzle/Meshes/BaseMaterial.BaseMaterial"))
 			, BlueMaterial(TEXT("/Game/Puzzle/Meshes/BlueMaterial.BlueMaterial"))
-			, OrangeMaterial(TEXT("/Game/Puzzle/Meshes/OrangeMaterial.OrangeMaterial"))
 			, GreyMaterial(TEXT("/Game/Puzzle/Meshes/GreyMaterial.GreyMaterial"))
+			, OrangeMaterial(TEXT("/Game/Puzzle/Meshes/OrangeMaterial.OrangeMaterial"))
 		{
 		}
 	};
@@ -42,10 +42,11 @@ ALightsOnBlock::ALightsOnBlock()
 	BlockMesh->OnClicked.AddDynamic(this, &ALightsOnBlock::BlockClicked);
 	BlockMesh->OnInputTouchBegin.AddDynamic(this, &ALightsOnBlock::OnFingerPressedBlock);
 
-	// Save a pointer to the orange material
+	// Save a pointer to the materials
 	BaseMaterial = ConstructorStatics.BaseMaterial.Get();
 	BlueMaterial = ConstructorStatics.BlueMaterial.Get();
 	OrangeMaterial = ConstructorStatics.OrangeMaterial.Get();
+	GreyMaterial = ConstructorStatics.GreyMaterial.Get();
 }
 
 void ALightsOnBlock::BlockClicked(UPrimitiveComponent* ClickedComp, FKey ButtonClicked)
@@ -98,4 +99,9 @@ void ALightsOnBlock::ToggleActive()
 void ALightsOnBlock::AdjustScale(int32 Scale)
 {
 	BlockMesh->SetRelativeScale3D(FVector((2.f / (Scale - 1)), (2.f / (Scale - 1)), 0.25f));
+}
+
+void ALightsOnBlock::GreyOut()
+{
+	BlockMesh->SetMaterial(0, GreyMaterial);
 }

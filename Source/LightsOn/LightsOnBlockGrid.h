@@ -73,6 +73,9 @@ public:
 	void AddToGrid(ALightsOnBlock* Block, int32 Index);
 
 	UFUNCTION(BlueprintCallable)
+	void SpawnOnGrid(int32 BlockType, int32 Index);
+
+	UFUNCTION(BlueprintCallable)
 	void LoadLevel(int LevelNumber);
 
 };

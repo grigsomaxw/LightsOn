@@ -2,6 +2,8 @@
 
 #include "LightsOnBlockGrid.h"
 #include "LightsOnBlock.h"
+#include "GlassBlock.h"
+#include "DeadBlock.h"
 #include "Components/TextRenderComponent.h"
 #include "Engine/World.h"
 #include <list>
@@ -128,9 +130,64 @@ void ALightsOnBlockGrid::AddToGrid(ALightsOnBlock* Block, int32 Index)
 	Blocks[Index] = Block;
 }
 
+void ALightsOnBlockGrid::SpawnOnGrid(int32 BlockType, int32 Index)
+{
+	BlockSpacing = 600.f / (Size - 1);
+	const float XOffset = (Index / Size) * BlockSpacing + (Index / Size - Size / 2.f) * 900.f * (1 - 2.f / (Size - 1)) / 7.f / (Size / 2.f);
+	const float YOffset = (Index % Size) * BlockSpacing + (Index % Size - Size / 2.f) * 900.f * (1 - 2.f / (Size - 1)) / 7.f / (Size / 2.f);
+
+	// Make position vector, offset from Grid location
+	const FVector BlockLocation = FVector(XOffset, YOffset, 0.f) + GetActorLocation();
+
+	ALightsOnBlock* NewBlock;
+
+	switch (BlockType) {
+	case 1:
+		NewBlock = GetWorld()->SpawnActor<AGlassBlock>(BlockLocation, FRotator(0, 0, 0));
+		break;
+	case 2:
+		NewBlock = GetWorld()->SpawnActor<ADeadBlock>(BlockLocation, FRotator(0, 0, 0));
+		NewBlock->GreyOut();
+		break;
+	default:
+		NewBlock = GetWorld()->SpawnActor<ALightsOnBlock>(BlockLocation, FRotator(0, 0, 0));
+		break;
+	}
+
+	if (NewBlock != nullptr)
+	{
+		NewBlock->OwningGrid = this;
+		NewBlock->AdjustScale(Size);
+		NewBlock->Index = Index;
+		Blocks[Index] = NewBlock;
+	}
+}
+
+
+
 void ALightsOnBlockGrid::LoadLevel(int LevelNumber)
 {
+	switch (LevelNumber) {
+		case 1:
+			break;
+		case 2:
+			break;
+		default:
+			Size = 3;
 
+			ResetGrid();
+
+			SpawnOnGrid(0, 0);
+			SpawnOnGrid(0, 1);
+			SpawnOnGrid(0, 2);
+			SpawnOnGrid(0, 3);
+			SpawnOnGrid(2, 4);
+			SpawnOnGrid(0, 5);
+			SpawnOnGrid(0, 6);
+			SpawnOnGrid(0, 7);
+			SpawnOnGrid(0, 8);
+			break;
+	}
 }
 
 #undef LOCTEXT_NAMESPACE

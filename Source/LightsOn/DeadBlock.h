@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
 #include "LightsOnBlock.h"
 #include "DeadBlock.generated.h"
 
@@ -19,5 +20,4 @@ class LIGHTSON_API ADeadBlock : public ALightsOnBlock
 	void Highlight(bool bOn);
 
 	void ToggleActive();
-
 };

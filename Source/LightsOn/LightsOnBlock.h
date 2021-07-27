@@ -67,6 +67,8 @@ public:
 
 	void AdjustScale(int32 Scale);
 
+	void GreyOut();
+
 public:
 	/** Returns DummyRoot subobject **/
 	FORCEINLINE class USceneComponent* GetDummyRoot() const { return DummyRoot; }
