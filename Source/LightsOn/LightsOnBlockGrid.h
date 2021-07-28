@@ -51,6 +51,7 @@ protected:
 public:
 
 	/** Handle the block being clicked */
+	UFUNCTION(BlueprintCallable)
 	void OnClick(int32 Index);
 
 	/** Returns DummyRoot subobject **/
@@ -77,6 +78,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void LoadLevel(int LevelNumber);
+
+	UFUNCTION(BlueprintCallable)
+	bool IsBlockActive(int32 Index);
+
+	UFUNCTION(BlueprintCallable)
+	void DisableBlock(int32 Index);
 
 };
 

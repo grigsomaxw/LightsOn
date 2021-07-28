@@ -147,11 +147,39 @@ void ALightsOnBlockGrid::SpawnOnGrid(int32 BlockType, int32 Index)
 	}
 }
 
+bool ALightsOnBlockGrid::IsBlockActive(int32 Index)
+{
+	return Blocks[Index]->bIsActive;
+}
 
+void ALightsOnBlockGrid::DisableBlock(int32 Index)
+{
+	if (Blocks[Index]->IsDisabled) {
+		Blocks[Index]->IsDisabled = false;
+	}
+	else {
+		Blocks[Index]->IsDisabled = true;
+	}
+}
 
 void ALightsOnBlockGrid::LoadLevel(int LevelNumber)
 {
 	switch (LevelNumber) {
+		case 0:
+			Size = 3;
+
+			ResetGrid();
+
+			SpawnOnGrid(2, 0);
+			SpawnOnGrid(1, 1);
+			SpawnOnGrid(2, 2);
+			SpawnOnGrid(1, 3);
+			SpawnOnGrid(0, 4);
+			SpawnOnGrid(2, 5);
+			SpawnOnGrid(2, 6);
+			SpawnOnGrid(1, 7);
+			SpawnOnGrid(2, 8);
+			break;
 		case 1:
 			Size = 3;
 

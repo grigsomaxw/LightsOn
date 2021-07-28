@@ -69,13 +69,16 @@ void ALightsOnBlock::OnFingerPressedBlock(ETouchIndex::Type FingerIndex, UPrimit
 
 void ALightsOnBlock::HandleClicked()
 {
-	OwningGrid->OnClick(Index);
+	if (!IsDisabled)
+	{
+		OwningGrid->OnClick(Index);
+	}
 }
 
 void ALightsOnBlock::Highlight(bool bOn)
 {
 	// Do not highlight if the block has already been activated.
-	if (bIsActive)
+	if (bIsActive || IsDisabled)
 	{
 		return;
 	}

@@ -27,6 +27,10 @@ public:
 	UPROPERTY(Category = Grid, EditAnywhere, BlueprintReadWrite)
 	bool bIsActive;
 
+	/** Is the block currently disabled. Used for the tutorial levels. */
+	UPROPERTY(Category = Grid, EditAnywhere, BlueprintReadWrite)
+	bool IsDisabled;
+
 	/** Grid Index */
 	int32 Index;
 protected:
