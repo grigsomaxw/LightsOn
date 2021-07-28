@@ -70,17 +70,23 @@ public:
 	UFUNCTION()
 	void OnFingerPressedBlock(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 
+	/** Toggle whether the current block is active or not  */
 	UFUNCTION(BlueprintCallable)
 	virtual void ToggleActive();
 
+	/** Handle the block being clicked  */
 	virtual void HandleClicked();
 
+	/** Highlight a block being hovered over */
 	virtual void Highlight(bool bOn);
 
+	/** Adjust the scale of the block for larger grids  */
 	void AdjustScale(int32 Scale);
 
+	/** Adds the glassy look to the glass block  */
 	void GlassOut();
 
+	/** Adds the greyed out look to the dead block  */
 	void GreyOut();
 
 public:

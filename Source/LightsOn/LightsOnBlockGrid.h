@@ -64,24 +64,31 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool CheckGrid();
 
+	/** Resets the grid, destroying and removing any blocks currently stored */
 	UFUNCTION(BlueprintCallable)
 	void ResetGrid();
 
+	/** Fills the grid with basic blocks */
 	UFUNCTION(BlueprintCallable)
 	void FillBasicGrid();
 
+	/** Adds a given block to the grid at a given index */
 	UFUNCTION(BlueprintCallable)
 	void AddToGrid(ALightsOnBlock* Block, int32 Index);
 
+	/** Spawns a block of the requested type (0 - Basic, 1 - Glass, 2 - Dead) at the given index. */
 	UFUNCTION(BlueprintCallable)
 	void SpawnOnGrid(int32 BlockType, int32 Index);
 
+	/** Loads a preset level associated with the given number */
 	UFUNCTION(BlueprintCallable)
 	void LoadLevel(int LevelNumber);
 
+	/** Checks whether the block at a given index is active */
 	UFUNCTION(BlueprintCallable)
 	bool IsBlockActive(int32 Index);
 
+	/** Disables a block at the given index. Used only for the tutorial */
 	UFUNCTION(BlueprintCallable)
 	void DisableBlock(int32 Index);
 
